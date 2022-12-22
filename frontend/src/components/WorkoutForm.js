@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 
 const WorkoutForm = () => {
   const [title, setTitle] = useState("");
@@ -19,7 +20,7 @@ const WorkoutForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const { dispatch } = useWorkoutsContext;
     const workout = { title, reps, load };
 
     const response = await fetch("/api/workouts", {
@@ -40,7 +41,8 @@ const WorkoutForm = () => {
       setReps("");
       setError(null);
       console.log("new Workout added successfully", data);
-      // navigate("/");
+      dispatch({ type: "ADD_WORKOUT", payload: data });
+      navigate("/");
     }
   };
 

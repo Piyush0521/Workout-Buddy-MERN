@@ -1,6 +1,4 @@
 import {
-  Center,
-  Heading,
   Stack,
   Box,
   Text,
@@ -10,21 +8,23 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { RiDeleteBin5Line } from "react-icons/ri";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
+
 const WorkoutDetails = ({ workout }) => {
+  const { dispatch } = useWorkoutsContext();
+  const handleDelete = async () => {
+    const response = await fetch("/api/workouts/" + workout._id, {
+      method: "DELETE",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      dispatch({ type: "DELETE_WORKOUT", payload: data });
+    }
+  };
+
   return (
     <>
       <Box m={3}>
-        {/* <Flex
-          flexFlow="row nowrap"
-          flexBasis="max-content"
-          gap={[4, 8]}
-          alignItems="center"
-          justifyItems="center"
-          alignContent="space-around"
-          justifyContent="space-around"
-        > */}
-
         <Stack
           px={[3, 6]}
           py={[1, 2]}
@@ -43,6 +43,7 @@ const WorkoutDetails = ({ workout }) => {
             <Spacer />
             <Box>
               <Button
+                onClick={handleDelete}
                 fontSize={[8, 15]}
                 leftIcon={<DeleteIcon />}
                 background="white"

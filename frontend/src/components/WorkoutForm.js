@@ -5,6 +5,8 @@ import {
   Box,
   Button,
   Center,
+  Text,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,12 +17,13 @@ const WorkoutForm = () => {
   const [reps, setReps] = useState("");
   const [load, setLoad] = useState("");
   const [error, setError] = useState("");
-
+  const [emptyFields, setEmptyFields] = useState([]);
+  const { dispatch } = useWorkoutsContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { dispatch } = useWorkoutsContext;
+
     const workout = { title, reps, load };
 
     const response = await fetch("/api/workouts", {
@@ -35,13 +38,16 @@ const WorkoutForm = () => {
 
     if (!response.ok) {
       setError(data.error);
+      setEmptyFields(data.emptyFields);
     } else {
       setTitle("");
       setLoad("");
       setReps("");
       setError(null);
+      setEmptyFields([]);
       console.log("new Workout added successfully", data);
       dispatch({ type: "ADD_WORKOUT", payload: data });
+
       navigate("/");
     }
   };
@@ -50,7 +56,11 @@ const WorkoutForm = () => {
     <div className="background">
       <Box mx={[8, "8rem"]} color="#383A39">
         <form onSubmit={handleSubmit}>
-          <FormControl isRequired pt={[6, 12]}>
+          <FormControl
+            isInvalid={emptyFields.includes("title")}
+            isRequired
+            pt={[6, 12]}
+          >
             <FormLabel fontWeight="bold" fontFamily="rubik">
               Workout
             </FormLabel>
@@ -60,8 +70,17 @@ const WorkoutForm = () => {
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
+            {emptyFields.includes("title") ? (
+              <FormErrorMessage>**Required field</FormErrorMessage>
+            ) : (
+              ""
+            )}
           </FormControl>
-          <FormControl isRequired mt={[3, 6]}>
+          <FormControl
+            isRequired
+            isInvalid={emptyFields.includes("reps")}
+            mt={[3, 6]}
+          >
             <FormLabel
               fontWeight="bold"
               fontFamily="rubik
@@ -75,8 +94,17 @@ const WorkoutForm = () => {
               onChange={(e) => setReps(e.target.value)}
               value={reps}
             />
+            {emptyFields.includes("reps") ? (
+              <FormErrorMessage>**Required field</FormErrorMessage>
+            ) : (
+              ""
+            )}
           </FormControl>
-          <FormControl isRequired py={[3, 6]}>
+          <FormControl
+            isInvalid={emptyFields.includes("load")}
+            isRequired
+            py={[3, 6]}
+          >
             <FormLabel
               fontWeight="bold"
               fontFamily="rubik
@@ -90,6 +118,11 @@ const WorkoutForm = () => {
               onChange={(e) => setLoad(e.target.value)}
               value={load}
             />
+            {emptyFields.includes("load") ? (
+              <FormErrorMessage>**Required field</FormErrorMessage>
+            ) : (
+              ""
+            )}
           </FormControl>
           <Center>
             <Button
@@ -109,6 +142,24 @@ const WorkoutForm = () => {
               Submit
             </Button>
           </Center>
+          {emptyFields.length > 0 ? (
+            <Center mt={[3, 5]} mb={[7, 10]}>
+              <Box
+                border="2px solid red"
+                p={[1, 3]}
+                borderRadius="5px"
+                background="#F7BABA"
+              >
+                {error && (
+                  <Text fontWeight="bold" fontFamily="rubik">
+                    {error}
+                  </Text>
+                )}
+              </Box>
+            </Center>
+          ) : (
+            ""
+          )}
         </form>
       </Box>
     </div>

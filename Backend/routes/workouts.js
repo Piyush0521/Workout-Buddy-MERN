@@ -7,6 +7,10 @@ const {
   updateSpecificWorkout,
 } = require("../controllers/workoutCont");
 const router = express.Router();
+const authRequire = require("../middleware/authRequire");
+
+//verifying authentication of user logging in for all workout routes
+router.use(authRequire);
 
 //SETTING UP ROUTES
 //GET all Workouts

@@ -1,4 +1,4 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Text, Divider } from "@chakra-ui/react";
 const About = () => {
   return (
     <div className="background" color="#CCCFDC">
@@ -11,7 +11,10 @@ const About = () => {
         px={[3, 8]}
         color="#656B68"
       >
-        <Heading fontFamily="rubik">About</Heading>
+        <Heading fontSize={["1.3rem", "2rem"]} fontFamily="rubik" pb={[1, 3]}>
+          About
+        </Heading>
+        <Divider borderWidth={1} width={["80px", "140px"]} />
         <Text pt={[5, 30]}>
           metus maximus. Duis cursus iaculis ligula, ac facilisis sem ultrices
           at. Phasellus a tincidunt lectus. Donec congue accumsan est vitae

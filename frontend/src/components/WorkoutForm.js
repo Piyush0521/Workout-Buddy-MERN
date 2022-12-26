@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 
 const WorkoutForm = () => {
@@ -19,10 +20,16 @@ const WorkoutForm = () => {
   const [error, setError] = useState("");
   const [emptyFields, setEmptyFields] = useState([]);
   const { dispatch } = useWorkoutsContext();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      setError("Log in to input workouts");
+      return;
+    }
 
     const workout = { title, reps, load };
 
@@ -31,6 +38,7 @@ const WorkoutForm = () => {
       body: JSON.stringify(workout),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
       },
     });
 
@@ -57,7 +65,7 @@ const WorkoutForm = () => {
       <Box mx={[8, "8rem"]} color="#383A39">
         <form onSubmit={handleSubmit}>
           <FormControl
-            isInvalid={emptyFields.includes("title")}
+            isInvalid={emptyFields?.includes("title")}
             isRequired
             pt={[6, 12]}
           >
@@ -70,7 +78,12 @@ const WorkoutForm = () => {
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
-            {emptyFields.includes("title") ? (
+            {console.log(
+              Array.isArray(emptyFields),
+              emptyFields,
+              emptyFields?.includes("title")
+            )}
+            {emptyFields?.includes("title") ? (
               <FormErrorMessage>**Required field</FormErrorMessage>
             ) : (
               ""
@@ -78,7 +91,7 @@ const WorkoutForm = () => {
           </FormControl>
           <FormControl
             isRequired
-            isInvalid={emptyFields.includes("reps")}
+            isInvalid={emptyFields?.includes("reps")}
             mt={[3, 6]}
           >
             <FormLabel
@@ -94,14 +107,14 @@ const WorkoutForm = () => {
               onChange={(e) => setReps(e.target.value)}
               value={reps}
             />
-            {emptyFields.includes("reps") ? (
+            {emptyFields?.includes("reps") ? (
               <FormErrorMessage>**Required field</FormErrorMessage>
             ) : (
               ""
             )}
           </FormControl>
           <FormControl
-            isInvalid={emptyFields.includes("load")}
+            isInvalid={emptyFields?.includes("load")}
             isRequired
             py={[3, 6]}
           >
@@ -118,7 +131,7 @@ const WorkoutForm = () => {
               onChange={(e) => setLoad(e.target.value)}
               value={load}
             />
-            {emptyFields.includes("load") ? (
+            {emptyFields?.includes("load") ? (
               <FormErrorMessage>**Required field</FormErrorMessage>
             ) : (
               ""
@@ -127,14 +140,16 @@ const WorkoutForm = () => {
           <Center>
             <Button
               onClick={handleSubmit}
-              background="#E0E5EC"
-              boxShadow="0 9px #999"
+              px={[3, 4]}
+              height={[8, 9]}
+              background="#ECF1EE"
+              boxShadow={["0px 5px #BABFBD", "0px 9px #BABFBD"]}
               borderRadius="6px"
               // _hover={{ boxShadow: "1px 1px 1px 1px #C9CECB" }}
               _active={{
-                background: "#C6D4CD",
+                background: "#D2DAD6",
                 transform: "translateY(4px)",
-                boxShadow: "0 5px #666",
+                boxShadow: "0 3px #666",
 
                 // fontSize: "18",
               }}
@@ -142,7 +157,7 @@ const WorkoutForm = () => {
               Submit
             </Button>
           </Center>
-          {emptyFields.length > 0 ? (
+          {emptyFields?.length > 0 ? (
             <Center mt={[3, 5]} mb={[7, 10]}>
               <Box
                 border="2px solid red"

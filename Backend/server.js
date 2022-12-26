@@ -4,6 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const workoutRoutes = require("./routes/workouts");
+const userRoutes = require("./routes/users");
 
 //just to supress the deprication warning
 mongoose.set("strictQuery", true);
@@ -30,5 +31,8 @@ app.use((req, res, next) => {
   next();
 });
 
-//routes setup
+//workout routes setup
 app.use("/api/workouts", workoutRoutes);
+
+//user routes setup
+app.use("/api/users", userRoutes);

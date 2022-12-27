@@ -12,7 +12,7 @@ router.post("/login", userLogin);
 router.post("/signup", userSignup);
 
 router.get("/", async (req, res) => {
-  const allUsers = await User.find({});
+  const allUsers = await User.find({ user_id });
   res.status(200).json(allUsers);
 });
 

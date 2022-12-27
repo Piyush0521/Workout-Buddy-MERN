@@ -5,7 +5,7 @@ const authRequire = require("../middleware/authRequire");
 //create new workout
 const createWorkout = async (req, res) => {
   const { title, reps, load } = req.body;
-  console.log("in");
+  // console.log("in");
   // console.log(req.user._id);
 
   let emptyFields = [];
@@ -27,9 +27,9 @@ const createWorkout = async (req, res) => {
 
   //add to database
   try {
-    // const user_id = req.user._id;
+    const user_id = req.user.id;
 
-    const newWorkout = await Workout.create({ title, reps, load });
+    const newWorkout = await Workout.create({ title, reps, load, user_id });
     res.status(200).json(newWorkout);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -38,9 +38,9 @@ const createWorkout = async (req, res) => {
 
 //get all workouts
 const getAllWorkouts = async (req, res) => {
-  // const user_id = req.user._id;
-  // console.log(user_id);
-  const allWorkouts = await Workout.find({}).sort({ createdAt: -1 });
+  const user_id = req.user.id;
+  console.log("user_id : ", user_id);
+  const allWorkouts = await Workout.find({ user_id }).sort({ createdAt: -1 });
   res.status(200).json(allWorkouts);
 };
 

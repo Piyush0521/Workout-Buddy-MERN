@@ -13,11 +13,13 @@ import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+const BACKEND_URL = process.env.BACKEND_URL;
+
 const WorkoutDetails = ({ workout }) => {
   const { dispatch } = useWorkoutsContext();
   const { user } = useAuthContext();
   const handleDelete = async () => {
-    const response = await fetch("/api/workouts/" + workout._id, {
+    const response = await fetch(`${BACKEND_URL}/api/workouts/` + workout._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -38,12 +40,12 @@ const WorkoutDetails = ({ workout }) => {
           my={[2, 5]}
           mx={[3, 12]}
           _hover={{ boxShadow: "1px 1px 2px 3px #C9CECB" }}
-          borderRadius="5"
-          fontFamily="rubik"
+          borderRadius='5'
+          fontFamily='rubik'
         >
           <Flex>
             <Box>
-              <Text fontSize={[15, 20]} fontWeight="bold">
+              <Text fontSize={[15, 20]} fontWeight='bold'>
                 {workout.title}
               </Text>
             </Box>
@@ -53,7 +55,7 @@ const WorkoutDetails = ({ workout }) => {
                 onClick={handleDelete}
                 fontSize={[8, 15]}
                 leftIcon={<DeleteIcon />}
-                background="#D2DAD6"
+                background='#D2DAD6'
                 _hover={{ boxShadow: "1px 1px 1px 1px #C9CECB" }}
                 _active={{ background: "#666", color: "white" }}
               >
@@ -61,18 +63,18 @@ const WorkoutDetails = ({ workout }) => {
               </Button>
             </Box>
           </Flex>
-          <Divider borderColor="#E0E5EC" borderWidth="1px" />
+          <Divider borderColor='#E0E5EC' borderWidth='1px' />
           <HStack fontSize={[9, 13]}>
-            <Text fontWeight="bold">Reps:</Text> <Text>{workout.reps}</Text>
+            <Text fontWeight='bold'>Reps:</Text> <Text>{workout.reps}</Text>
           </HStack>
 
           <HStack fontSize={[9, 13]}>
-            <Text fontWeight="bold">Load:</Text> <Text>{workout.load}</Text>
+            <Text fontWeight='bold'>Load:</Text> <Text>{workout.load}</Text>
           </HStack>
           <Divider borderWidth={1} width={["80px", "100px"]} />
           <HStack>
             <TimeIcon />
-            <Text fontSize={[9, 13]} fontWeight="bold">
+            <Text fontSize={[9, 13]} fontWeight='bold'>
               {formatDistanceToNow(new Date(workout.createdAt), {
                 addSuffix: true,
               })}

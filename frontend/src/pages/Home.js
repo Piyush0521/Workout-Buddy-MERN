@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 //components
 import WorkoutDetails from "../components/WorkoutDetails";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
-
 import { useAuthContext } from "../hooks/useAuthContext";
+
+const BACKEND_URL = process.env.BACKEND_URL;
 
 const Home = () => {
   const { workouts, dispatch } = useWorkoutsContext();
@@ -16,7 +17,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch("/api/workouts", {
+      const response = await fetch(`${BACKEND_URL}/api/workouts`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -48,12 +49,12 @@ const Home = () => {
           pr={[5, 10]}
           pt={[3, 9]}
           pb={[3, 8]}
-          fontFamily="rubik"
-          alignItems="center"
+          fontFamily='rubik'
+          alignItems='center'
         >
           <Box>
             {workouts.length > 0 && (
-              <Heading fontFamily="rubik" fontSize={[20, 25]}>
+              <Heading fontFamily='rubik' fontSize={[20, 25]}>
                 Workouts Todo..
               </Heading>
             )}
@@ -64,11 +65,11 @@ const Home = () => {
               onClick={handleNavigate}
               px={[2, 3]}
               height={[7, 9]}
-              textAlign="center"
+              textAlign='center'
               fontSize={[10, 20]}
               leftIcon={<AddIcon />}
-              borderRadius="6px"
-              background="#ECF1EE"
+              borderRadius='6px'
+              background='#ECF1EE'
               boxShadow={["0px 5px #BABFBD", "0px 9px #BABFBD"]}
               // _hover={{ boxShadow: "1px 1px 1px 2px #C9CECB" }}
               _active={{

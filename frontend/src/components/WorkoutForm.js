@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 
+const BACKEND_URL = process.env.BACKEND_URL;
+
 const WorkoutForm = () => {
   const [title, setTitle] = useState("");
   const [reps, setReps] = useState("");
@@ -33,7 +35,7 @@ const WorkoutForm = () => {
 
     const workout = { title, reps, load };
 
-    const response = await fetch("/api/workouts", {
+    const response = await fetch(`${BACKEND_URL}/api/workouts`, {
       method: "POST",
       body: JSON.stringify(workout),
       headers: {
@@ -61,20 +63,20 @@ const WorkoutForm = () => {
   };
 
   return (
-    <div className="background">
-      <Box mx={[8, "8rem"]} color="#383A39">
+    <div className='background'>
+      <Box mx={[8, "8rem"]} color='#383A39'>
         <form onSubmit={handleSubmit}>
           <FormControl
             isInvalid={emptyFields?.includes("title")}
             isRequired
             pt={[6, 12]}
           >
-            <FormLabel fontWeight="bold" fontFamily="rubik">
+            <FormLabel fontWeight='bold' fontFamily='rubik'>
               Workout
             </FormLabel>
             <Input
-              placeholder="Type the workout"
-              type="text"
+              placeholder='Type the workout'
+              type='text'
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
@@ -95,15 +97,15 @@ const WorkoutForm = () => {
             mt={[3, 6]}
           >
             <FormLabel
-              fontWeight="bold"
-              fontFamily="rubik
-          "
+              fontWeight='bold'
+              fontFamily='rubik
+          '
             >
               Reps
             </FormLabel>
             <Input
-              placeholder="Type the no. of reps"
-              type="text"
+              placeholder='Type the no. of reps'
+              type='text'
               onChange={(e) => setReps(e.target.value)}
               value={reps}
             />
@@ -119,15 +121,15 @@ const WorkoutForm = () => {
             py={[3, 6]}
           >
             <FormLabel
-              fontWeight="bold"
-              fontFamily="rubik
-          "
+              fontWeight='bold'
+              fontFamily='rubik
+          '
             >
               Load (in kg)
             </FormLabel>
             <Input
-              placeholder="Type the load (in kgs)"
-              type="text"
+              placeholder='Type the load (in kgs)'
+              type='text'
               onChange={(e) => setLoad(e.target.value)}
               value={load}
             />
@@ -142,9 +144,9 @@ const WorkoutForm = () => {
               onClick={handleSubmit}
               px={[3, 4]}
               height={[8, 9]}
-              background="#ECF1EE"
+              background='#ECF1EE'
               boxShadow={["0px 5px #BABFBD", "0px 9px #BABFBD"]}
-              borderRadius="6px"
+              borderRadius='6px'
               // _hover={{ boxShadow: "1px 1px 1px 1px #C9CECB" }}
               _active={{
                 background: "#D2DAD6",
@@ -160,13 +162,13 @@ const WorkoutForm = () => {
           {emptyFields?.length > 0 ? (
             <Center mt={[3, 5]} mb={[7, 10]}>
               <Box
-                border="2px solid red"
+                border='2px solid red'
                 p={[1, 3]}
-                borderRadius="5px"
-                background="#F7BABA"
+                borderRadius='5px'
+                background='#F7BABA'
               >
                 {error && (
-                  <Text fontWeight="bold" fontFamily="rubik">
+                  <Text fontWeight='bold' fontFamily='rubik'>
                     {error}
                   </Text>
                 )}

@@ -2,6 +2,7 @@ require("dotenv").config();
 //requiring the package and invoking config method to it helps us to attach all those environment variables to the process object
 
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const workoutRoutes = require("./routes/workouts");
 const userRoutes = require("./routes/users");
@@ -24,6 +25,12 @@ mongoose
     });
   })
   .catch((error) => console.log(error));
+
+app.use(
+  cors({
+    origin: "https://workout-buddy-mern-8paz.vercel.app", // Replace with your actual Vercel app URL
+  })
+);
 
 app.use(express.json());
 app.use((req, res, next) => {

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL = "https://workout-buddy-mern-c92e.onrender.com";
 
 const WorkoutForm = () => {
   const [title, setTitle] = useState("");

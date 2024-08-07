@@ -13,7 +13,7 @@ import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL = "https://workout-buddy-mern-c92e.onrender.com";
 
 const WorkoutDetails = ({ workout }) => {
   const { dispatch } = useWorkoutsContext();

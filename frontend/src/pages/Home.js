@@ -8,7 +8,7 @@ import WorkoutDetails from "../components/WorkoutDetails";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL = "https://workout-buddy-mern-c92e.onrender.com";
 
 const Home = () => {
   const { workouts, dispatch } = useWorkoutsContext();

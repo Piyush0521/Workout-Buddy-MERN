@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuthContext } from "./useAuthContext";
 
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL = "https://workout-buddy-mern-c92e.onrender.com";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
